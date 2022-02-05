@@ -31,6 +31,9 @@ public class BoardFile extends BaseTime{
     @Column(name = "remote_file_name")
     private String remoteFileName;
 
+    @Column(name = "filePath")
+    private String filePath;
+
     @Transient
     public BoardFileDto toDto() {
         return new BoardFileDto(this);

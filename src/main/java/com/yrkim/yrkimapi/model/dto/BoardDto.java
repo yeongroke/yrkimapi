@@ -2,41 +2,50 @@ package com.yrkim.yrkimapi.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.yrkim.yrkimapi.model.entity.Board;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Data
 @NoArgsConstructor
 public class BoardDto extends BaseTimeDto {
 
     @NotNull
-    @ApiModelProperty(value = "게시판 번호")
+    @Schema(description = "게시판 번호")
     private Long id;
 
     @NotNull
-    @ApiModelProperty(value = "게시판 타이틀")
+    @Schema(description = "게시판 타이틀")
     private String title;
 
     @NotNull
-    @ApiModelProperty(value = "게시판 내용")
+    @Schema(description = "게시판 내용")
     private String content;
 
     @NotNull
-    @ApiModelProperty(value = "작성자")
+    @Schema(description = "작성자")
     private UserDto user;
 
-    @NotNull
-    @ApiModelProperty(value = "조회수")
+    @Schema(description = "조회수")
     private Long viewcount;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private BoardFileDto boardFile;
+    private BoardCommentDto boardComment;
+
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private BoardCommentDto boardComment;
+    private Collection<BoardFileDto> boardFiles;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Collection<String> boardFileUrls = new ArrayList<>();
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private MultipartFile[] files;
 
     public BoardDto(Board board) {
         this.id = board.getId();
@@ -56,6 +65,8 @@ public class BoardDto extends BaseTimeDto {
                 .user(user.toEntity())
                 .viewcount(viewcount)
                 .build();
+        board.setCreated(getCreated());
+        board.setModified(getModified());
         return board;
     }
 }

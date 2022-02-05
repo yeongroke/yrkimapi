@@ -2,13 +2,20 @@ package com.yrkim.yrkimapi.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.yrkim.yrkimapi.model.entity.BoardComment;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
 public class BoardCommentDto extends BaseTimeDto {
+    @NotNull
+    @Schema(description = "게시판 댓글 번호")
     private Long id;
+    @NotNull
+    @Schema(description = "게시판 댓글 내용")
     private String content;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Long boardId;

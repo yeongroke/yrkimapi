@@ -1,6 +1,8 @@
 package com.yrkim.yrkimapi.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
@@ -25,10 +27,13 @@ public abstract class BaseTime {
 
     @Column(name = "created", updatable = false, nullable = false)
     @CreatedDate()
-    @ApiModelProperty(value = "등록 시각")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @Schema(description = "등록 시각")
     private LocalDateTime created;
 
+    @Column(name = "modified", updatable = false, nullable = false)
     @LastModifiedDate
-    @ApiModelProperty(value = "수정 시각")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @Schema(description = "수정 시각")
     private LocalDateTime modified;
 }

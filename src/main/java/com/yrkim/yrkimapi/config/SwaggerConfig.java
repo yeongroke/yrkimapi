@@ -27,7 +27,7 @@ public class SwaggerConfig {
                 .groupName(group)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.yrkim.yrkimapi.controller"))
-                .paths(PathSelectors.ant("/hello/**"))
+                .paths(PathSelectors.ant("/**"))
                 .build()
                 .apiInfo(apiInfo(title, group));
 

@@ -17,7 +17,6 @@ import java.util.Set;
 @AllArgsConstructor
 public class UserDto extends BaseTimeDto {
 
-    @NotNull
     @Schema(description = "회원번호")
     private Long id;
 
@@ -29,11 +28,9 @@ public class UserDto extends BaseTimeDto {
     @Schema(description = "회원 비밀번호")
     private String password;
 
-    @NotNull
     @Schema(description = "회원 이메일")
     private String email;
 
-    @NotNull
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Set<Role> roles;
 

@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -26,13 +28,13 @@ import java.time.LocalDateTime;
 public abstract class BaseTime {
 
     @Column(name = "created", updatable = false, nullable = false)
-    @CreatedDate()
+    @CreationTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     @Schema(description = "등록 시각")
     private LocalDateTime created;
 
     @Column(name = "modified", updatable = false, nullable = false)
-    @LastModifiedDate
+    @UpdateTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     @Schema(description = "수정 시각")
     private LocalDateTime modified;

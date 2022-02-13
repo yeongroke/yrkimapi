@@ -1,5 +1,6 @@
 package com.yrkim.yrkimapi.model.entity;
 
+import com.yrkim.yrkimapi.model.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,7 +26,4 @@ public class Role {
     @Column(name = "name")
     private RoleName name;
 
-    public Role(RoleName name){
-        this.name = name;
-    }
 }

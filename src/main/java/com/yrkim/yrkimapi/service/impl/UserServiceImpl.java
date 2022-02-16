@@ -14,8 +14,13 @@ import com.yrkim.yrkimapi.service.CommonResponseService;
 import com.yrkim.yrkimapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service("userService")
@@ -26,19 +31,26 @@ public class UserServiceImpl implements UserService {
     private final CommonResponseService commonResponseService;
 
     @Override
-    public SingleResult<User> save(SignupRequest user) {
+    public SingleResult<UserDto> save(SignupRequest user) {
         UserDto userDto = new UserDto(user);
-        return commonResponseService.getSingleResult(userRepository.save(userDto.toEntity()));
+        return commonResponseService.getSingleResult(new UserDto(userRepository.save(userDto.toEntity())));
     }
 
     @Override
-    public SingleResult<User> getUser(long id) {
-        return commonResponseService.getSingleResult(userRepository.findById(id).orElseThrow(UserNotFoundException::new));
+    public SingleResult<UserDto> getUser(long id) {
+        return commonResponseService.getSingleResult(new UserDto(userRepository.findById(id).orElseThrow(UserNotFoundException::new)));
     }
 
     @Override
-    public ListResult<User> getUsers(Pageable pageable) {
-        return commonResponseService .getListResult(userRepository.findAll(pageable));
+    public ListResult<UserDto> getUsers(Pageable pageable) {
+        List<UserDto> userDtoList = userRepository.findAll(pageable)
+                .stream()
+                .map(user -> {
+                    return new UserDto(user);
+                }).collect(Collectors.toList());
+        return commonResponseService.getListResult(new PageImpl<>(userDtoList,
+                pageable,
+                userRepository.findAll(pageable).getTotalElements()));
     }
 
     @Override

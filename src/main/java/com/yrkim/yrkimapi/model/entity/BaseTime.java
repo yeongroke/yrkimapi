@@ -3,6 +3,7 @@ package com.yrkim.yrkimapi.model.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -24,6 +25,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @MappedSuperclass
+@EqualsAndHashCode(of = "id")
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseTime {
 

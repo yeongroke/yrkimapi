@@ -46,3 +46,8 @@ server:
   servlet:
     context-path: /
   port: 9000
+
+
+
+yrkim:
+  secret_key: jwtAuthenticationJwtSecretKeyYrkimApi

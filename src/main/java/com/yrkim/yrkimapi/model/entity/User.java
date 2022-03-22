@@ -2,10 +2,7 @@ package com.yrkim.yrkimapi.model.entity;
 
 import com.yrkim.yrkimapi.model.dto.UserDto;
 import com.yrkim.yrkimapi.utils.entity.EntityId;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.NaturalId;
 
@@ -31,18 +28,24 @@ public class User extends BaseTime {
     private Long id;
 
     @NotBlank
-    @Column(name = "username")
+    @Column(name = "username",
+            nullable = false,
+            updatable = false)
     @Size(max = 14)
     private String username;
 
     @NotBlank
     @NaturalId
     @Size(max = 100)
-    @Column(name = "password")
+    @Column(name = "password",
+            nullable = false,
+            updatable = false)
     private String password;
 
     @NotBlank
-    @Column(name = "email")
+    @Column(name = "email",
+            nullable = false,
+            updatable = false)
     @Size(max = 50)
     @Email
     private String email;

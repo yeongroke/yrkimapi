@@ -1,17 +1,14 @@
 package com.yrkim.yrkimapi.controller;
 
 import com.yrkim.yrkimapi.exception.ParameterValidException;
-import com.yrkim.yrkimapi.model.dto.UserDto;
 import com.yrkim.yrkimapi.model.response.CommonResult;
 import com.yrkim.yrkimapi.payload.request.LoginRequest;
 import com.yrkim.yrkimapi.payload.request.SignupRequest;
-import com.yrkim.yrkimapi.security.JwtTokenUtil;
 import com.yrkim.yrkimapi.service.CommonResponseService;
 import com.yrkim.yrkimapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -31,8 +28,8 @@ public class AuthController {
     private final UserService userService;
     private final CommonResponseService commonResponseService;
 
-    @PostMapping(path = "/sign-in" , produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> signIn(@RequestBody @Valid LoginRequest user, BindingResult result) {
+    @PostMapping(path = "/sign-in")
+    public ResponseEntity<String> signIn(@RequestBody @Valid LoginRequest user, BindingResult result) {
         if(result.hasErrors()) {
             throw new ParameterValidException("Parameter Check");
         }
@@ -44,6 +41,9 @@ public class AuthController {
     @PostMapping(path = "/sign-up" , produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CommonResult> signUp(@RequestBody @Valid SignupRequest user, BindingResult result) throws ParameterValidException {
         if(result.hasErrors()) {
+            result.getFieldErrors().stream().forEach(fieldError -> {
+                log.info("tttt : {} " , fieldError.getField());
+            });
             throw new ParameterValidException("Parameter Check");
         }
         log.info("signup : {}" , String.format("%s",user.toString()));

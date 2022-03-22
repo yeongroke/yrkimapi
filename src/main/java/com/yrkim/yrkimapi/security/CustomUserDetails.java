@@ -1,5 +1,6 @@
 package com.yrkim.yrkimapi.security;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yrkim.yrkimapi.model.dto.UserDto;
 import com.yrkim.yrkimapi.model.entity.Role;
 import lombok.Getter;
@@ -17,10 +18,11 @@ public class CustomUserDetails implements UserDetails {
 
     private Long id;
     private String username;
+    @JsonIgnore
     private String password;
+    @JsonIgnore
     private String email;
     private Set<Role> roles;
-    private UserDto user;
 
     // 계정 권한 목록을 리턴 , 미사용
     @Override

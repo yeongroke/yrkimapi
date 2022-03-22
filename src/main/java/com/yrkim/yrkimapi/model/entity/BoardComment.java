@@ -1,10 +1,7 @@
 package com.yrkim.yrkimapi.model.entity;
 
 import com.yrkim.yrkimapi.model.dto.BoardCommentDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -21,7 +18,9 @@ public class BoardComment extends BaseTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column()
+    @Column(name = "content",
+            nullable = false,
+            updatable = false)
     private String content;
 
     @ManyToOne
@@ -29,7 +28,9 @@ public class BoardComment extends BaseTime {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_id")
+    @JoinColumn(name = "board_id",
+            referencedColumnName = "id",
+            nullable = false)
     private Board board;
 
     @Transient

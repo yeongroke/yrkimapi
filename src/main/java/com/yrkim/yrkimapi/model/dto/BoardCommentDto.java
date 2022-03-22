@@ -11,7 +11,6 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 public class BoardCommentDto extends BaseTimeDto {
-    @NotNull
     @Schema(description = "게시판 댓글 번호")
     private Long id;
     @NotNull
@@ -35,10 +34,10 @@ public class BoardCommentDto extends BaseTimeDto {
 
     public BoardComment toEntity(){
         BoardComment boardComment = BoardComment.builder()
-                .id(id)
-                .content(content)
-                .user(user.toEntity())
-                .board(board.toEntity())
+                .id(this.id)
+                .content(this.content)
+                .user(this.user.toEntity())
+                .board(this.board.toEntity())
                 .build();
         return boardComment;
     }

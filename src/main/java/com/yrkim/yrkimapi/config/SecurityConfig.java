@@ -5,6 +5,7 @@ import com.yrkim.yrkimapi.security.JwtRequestFilter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,6 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import java.util.Arrays;
 
 @Slf4j
@@ -50,16 +52,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "https://localhost:3000",
             "https://localhost:9000",
             "http://rokidev.com",
-            "https://rokidev.com"
+            "https://rokidev.com",
+            "*"
     };
 
     private static final String[] CONF_POST_PATHS = {
             "/sign-in",
-            "/sign-up"
+            "/sign-up",
+            "/board",
+            "https://localhost:9000/sign-in"
     };
 
     private static final String[] CONF_GET_PATHS = {
-            "/hello"
+            "/sign-in",
+            "/sign-up",
+            "/hello",
+            "/board",
+            "/board/*"
     };
 
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -116,6 +125,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/api/**",
                 "/swagger-ui.html",
                 "/swagger-ui/**");
+    }
+
+    public FilterRegistrationBean corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("*"));
+        configuration.setExposedHeaders(Arrays.asList(exposeHeaders));
+        configuration.setAllowCredentials(true);
+        source.registerCorsConfiguration("/**", configuration);
+        FilterRegistrationBean bean = new FilterRegistrationBean(
+                new CorsFilter(source));
+        return bean;
     }
 
     @Bean
